@@ -1,16 +1,18 @@
 const Profile = require("../models/profile");
 
 exports.getAllUserInfo = (req, res) => {
-  Profile.find().exec((error, result) => {
-    if (error) {
-      return res.status(400).json({
-        error: "Error in finding the User Profile",
+  Profile.find()
+    .populate("user", ["name", "email", "_id"])
+    .exec((error, result) => {
+      if (error) {
+        return res.status(400).json({
+          error: "Error in finding the User Profile",
+        });
+      }
+      return res.status(200).json({
+        profile: result,
       });
-    }
-    return res.status(200).json({
-      profile: result,
     });
-  });
 };
 
 exports.setUserProfile = (req, res, next, id) => {
