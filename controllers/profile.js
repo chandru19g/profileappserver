@@ -3,6 +3,7 @@ const Profile = require("../models/profile");
 exports.getAllUserInfo = (req, res) => {
   Profile.find()
     .populate("user", ["name", "email", "_id"])
+    .populate("profile.user", ["name", "email", "_id"])
     .exec((error, result) => {
       if (error) {
         return res.status(400).json({
